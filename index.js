@@ -19,6 +19,7 @@ const greeter = (req, res, next) => {
 };
 
 const yell = (req, res, next) => {
+    console.log(req.params);
     const newName = req.params.name.toUpperCase();
     req.name = newName;
     next();
