@@ -1,24 +1,40 @@
+// pull in express
 const express = require('express');
+const port = 9000;
 
+// instanciate your server
 const server = express();
 
-//Call middlewares always before routes and server.listen()
+// MIDDLEWARES
 const logger = (req, res, next) => {
-// next will be called in every middleware we build
-// It determines when to go to the next piece of middleware
-console.log(`${Date.now()} ${req.method} made to ${req.url}`);
-next();
+  // next will be called in EVERY piece of middleware we build
+  // it will determine when to go, to the next piece of middleware.
+  console.log(`${Date.now()} ${req.method} made to ${req.url}`);
+  next();
 };
 
-//Plugs global(in existence across our app) middleware into our server
-server.use(logger);
+const greeter = (req, res, next) => {
+    req.section = 'FSW-!3';
+    next();
+};
 
-// Routes
-server.get('/api', (req, res) => {
-    res.send('Hello-World!');
+
+
+//Plugs in logger which is a global middleware into our server
+server.use(logger);
+// built a GET endpoint to `/` that returns the string hello world to the client.
+
+// ROUTES
+server.get('/', (req, res) => {
+  res.send('Cowabunga!');
 });
 
-//Call server.listen() method that creates listner @ port 7000
-const port = 7000;
-server.listen(port, () => console.log(`API is running on ${port}`));
+server.get('/rapha', (req, res) => {
+  res.send('I am Raphael');
+});
+// call server.listen w/ a port of your choosing
+server.listen(port, () => {
+  console.log(`Booyahkasha happening on ${port}`);
+});
+// hit your port+/ to see "hello wold!"
 
